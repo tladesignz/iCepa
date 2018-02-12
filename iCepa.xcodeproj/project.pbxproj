@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		A0236916202DF196003B89DB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0236914202DF196003B89DB /* WebViewController.swift */; };
 		A0B6898B1FC468B900A761CF /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B6898A1FC468B900A761CF /* NetworkExtension.framework */; };
 		A0B6898C1FC468C100A761CF /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B6898A1FC468B900A761CF /* NetworkExtension.framework */; };
 		A0B689941FC471AE00A761CF /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B689931FC471AE00A761CF /* libresolv.9.tbd */; };
@@ -144,6 +145,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A0236914202DF196003B89DB /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		A0B6898A1FC468B900A761CF /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		A0B6898D1FC4691800A761CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A0B6898F1FC4692200A761CF /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
@@ -208,7 +210,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A07635A21F0566CA00EE97A6 /* NetworkExtension.framework in Frameworks */,
 				D095BFF91BBD64970077E38B /* Tor.framework in Frameworks */,
 				A0B6898B1FC468B900A761CF /* NetworkExtension.framework in Frameworks */,
 			);
@@ -304,6 +305,7 @@
 				D0F2D7D51BB5CC1B000E1D86 /* ControlViewController.swift */,
 				D0E9A7071D6FFA16005B8F5C /* PermissionViewController.swift */,
 				D0E9A70D1D708C00005B8F5C /* FloatingButton.swift */,
+				A0236914202DF196003B89DB /* WebViewController.swift */,
 				D0F2D7E51BB5CC28000E1D86 /* Supporting Files */,
 			);
 			path = iOS;
@@ -505,11 +507,13 @@
 					};
 					D0F2D7CF1BB5CC1B000E1D86 = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = W36S8KLY7S;
 						LastSwiftMigration = 0910;
 						ProvisioningStyle = Manual;
 					};
 					D0F2D7F71BB5D148000E1D86 = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = W36S8KLY7S;
 						LastSwiftMigration = 0910;
 						ProvisioningStyle = Manual;
 					};
@@ -623,6 +627,7 @@
 				D08892B41DD582F9009DB0CD /* AppCoordinator.swift in Sources */,
 				D0F2D7D41BB5CC1B000E1D86 /* AppDelegate.swift in Sources */,
 				D0F2D7EC1BB5CD59000E1D86 /* CPASharedConstants.m in Sources */,
+				A0236916202DF196003B89DB /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -954,7 +959,7 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/iCepa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-                DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = W36S8KLY7S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -963,8 +968,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(CPA_APPLICATION_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = iCepa;
-                PROVISIONING_PROFILE = "";
-                PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "4ddc9a33-1ed3-4d95-add3-722550531b9f";
+				PROVISIONING_PROFILE_SPECIFIER = "iCepa Dev";
 				SWIFT_OBJC_BRIDGING_HEADER = iOS/CPABridging.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -982,7 +987,7 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/iCepa.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = W36S8KLY7S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -991,8 +996,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(CPA_APPLICATION_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = iCepa;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "4ddc9a33-1ed3-4d95-add3-722550531b9f";
+				PROVISIONING_PROFILE_SPECIFIER = "iCepa Dev";
 				SWIFT_OBJC_BRIDGING_HEADER = iOS/CPABridging.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1008,7 +1013,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Extension/iCepaTunnel-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-                DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = W36S8KLY7S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(PROJECT_DIR)/Carthage/Build/iOS\"",
@@ -1021,8 +1026,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(CPA_EXTENSION_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = iCepaTunnel;
-                PROVISIONING_PROFILE = "";
-                PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "f075c6eb-5b5a-46b4-bf6a-49622b9a581e";
+				PROVISIONING_PROFILE_SPECIFIER = "iCepa Extension Dev";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = Extension/CPABridging.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1040,7 +1045,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Extension/iCepaTunnel-iOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = W36S8KLY7S;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(PROJECT_DIR)/Carthage/Build/iOS\"",
@@ -1049,8 +1054,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(CPA_EXTENSION_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = iCepaTunnel;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "f075c6eb-5b5a-46b4-bf6a-49622b9a581e";
+				PROVISIONING_PROFILE_SPECIFIER = "iCepa Extension Dev";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = Extension/CPABridging.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

@@ -16,7 +16,7 @@ class ControlViewController: UIViewController {
 
     weak var startStopButton: FloatingButton?
     weak var establishedLabel: UILabel?
-    
+
     required init(manager: NETunnelProviderManager) {
         self.manager = manager
         session = manager.connection as! NETunnelProviderSession
@@ -61,6 +61,11 @@ class ControlViewController: UIViewController {
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 0.5, constant: 0)
             ])
+
+        navigationItem.title = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? ""
+        navigationItem.setRightBarButton(
+            UIBarButtonItem(title: "Test", style: .plain, target: self, action: #selector(gotoWebView)),
+            animated: false)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -142,6 +147,10 @@ class ControlViewController: UIViewController {
         self.establishedLabel?.text = labelText
         self.startStopButton?.setTitle(buttonText, for: UIControlState())
 
+    }
+
+    @objc func gotoWebView() {
+        NotificationCenter.default.post(name: AppCoordinator.gotoWebViewNotification, object: nil)
     }
 
     private func commTunnel() {
