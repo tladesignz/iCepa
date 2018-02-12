@@ -16,6 +16,11 @@ class ControlViewController: UIViewController {
 
     weak var startStopButton: FloatingButton?
     weak var establishedLabel: UILabel?
+    var torThreadStyle: UISegmentedControl!
+
+    private static let torThread: MyTorThread = {
+        return MyTorThread()
+    }()
 
     required init(manager: NETunnelProviderManager) {
         self.manager = manager
@@ -62,7 +67,12 @@ class ControlViewController: UIViewController {
             NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 0.5, constant: 0)
             ])
 
+        torThreadStyle = UISegmentedControl(items: ["NE", "App"])
+        torThreadStyle.selectedSegmentIndex = 0
+        navigationItem.setLeftBarButton(UIBarButtonItem(customView: torThreadStyle!), animated: false)
+
         navigationItem.title = Bundle.main.infoDictionary?["CFBundleName"] as? String ?? ""
+
         navigationItem.setRightBarButton(
             UIBarButtonItem(title: "Test", style: .plain, target: self, action: #selector(gotoWebView)),
             animated: false)
@@ -76,14 +86,38 @@ class ControlViewController: UIViewController {
     
     @objc func enableStartStop() {
         let start: (() -> Void) = {
-            do {
-                try self.session.startVPNTunnel()
-            } catch let error {
-                return print("Error: Could not start manager: \(error)")
+            var delay = DispatchTime.now()
+
+            if self.torThreadStyle?.selectedSegmentIndex == 0 {
+                // So the simple test in PacketTunnelProvider, if Tor is already running, works.
+                MyTorThread.purgeDataDirectory()
+            }
+            else {
+                if !ControlViewController.torThread.isExecuting {
+                    ControlViewController.torThread.start()
+
+                    // Need to wait to start VPN tunnel until after Tor has bootstrapped, otherwise
+                    // Tor will get into an infinit loop trying to load the microdescriptors, because
+                    // iOS will redirect the traffic to the started Network Extension, which tries to
+                    // connect to Tor, which isn't ready, yet...
+                    delay = DispatchTime.now() + 20
+
+                    // Fake NE start
+                    self.establishedLabel?.text = NSLocalizedString("Waiting for local Tor", comment: "")
+                    self.startStopButton?.setTitle(NSLocalizedString("Stop Tor", comment: ""), for: UIControlState())
+                }
             }
 
-            print("Establish communications channel with extension.")
-            self.commTunnel()
+            DispatchQueue.main.asyncAfter(deadline: delay) {
+                do {
+                    try self.session.startVPNTunnel()
+                } catch let error {
+                    return print("Error: Could not start manager: \(error)")
+                }
+
+                print("Establish communications channel with extension.")
+                self.commTunnel()
+            }
         }
 
         // If there already is a VPN configuration before we came along, that one will be kept

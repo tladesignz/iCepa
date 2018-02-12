@@ -23,6 +23,8 @@
 
 /* Begin PBXBuildFile section */
 		A0236916202DF196003B89DB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0236914202DF196003B89DB /* WebViewController.swift */; };
+		A0621AFD2031CBE5009C34E8 /* MyTorThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0621AFB2031CBE5009C34E8 /* MyTorThread.swift */; };
+		A0621AFE2031D04E009C34E8 /* MyTorThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0621AFB2031CBE5009C34E8 /* MyTorThread.swift */; };
 		A0B6898B1FC468B900A761CF /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B6898A1FC468B900A761CF /* NetworkExtension.framework */; };
 		A0B6898C1FC468C100A761CF /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B6898A1FC468B900A761CF /* NetworkExtension.framework */; };
 		A0B689941FC471AE00A761CF /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A0B689931FC471AE00A761CF /* libresolv.9.tbd */; };
@@ -146,6 +148,7 @@
 
 /* Begin PBXFileReference section */
 		A0236914202DF196003B89DB /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		A0621AFB2031CBE5009C34E8 /* MyTorThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTorThread.swift; sourceTree = "<group>"; };
 		A0B6898A1FC468B900A761CF /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		A0B6898D1FC4691800A761CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A0B6898F1FC4692200A761CF /* Cartfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cartfile; sourceTree = "<group>"; };
@@ -229,19 +232,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A07635971F05564A00EE97A6 /* Misc */ = {
-			isa = PBXGroup;
-			children = (
-				A07635981F05566100EE97A6 /* Cartfile */,
-				A076359A1F05567300EE97A6 /* Cartfile.resolved */,
-				A07635901F05552400EE97A6 /* .gitignore */,
-				A07635941F05555000EE97A6 /* .gitmodules */,
-				A07635951F05564300EE97A6 /* BUILD.md */,
-				A076358E1F05551200EE97A6 /* README.md */,
-			);
-			name = Misc;
-			sourceTree = "<group>";
-		};
 		D095BFD21BBD621D0077E38B /* Mac */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +321,7 @@
 				D0F2D7EA1BB5CD59000E1D86 /* CPASharedConstants.h */,
 				D0F2D7EB1BB5CD59000E1D86 /* CPASharedConstants.m */,
 				D0B28C501D53341B00EA635B /* FileManager.swift */,
+				A0621AFB2031CBE5009C34E8 /* MyTorThread.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -624,6 +615,7 @@
 				D0E9A7081D6FFA16005B8F5C /* PermissionViewController.swift in Sources */,
 				D0E9A70E1D708C00005B8F5C /* FloatingButton.swift in Sources */,
 				D0F2D7D61BB5CC1B000E1D86 /* ControlViewController.swift in Sources */,
+				A0621AFE2031D04E009C34E8 /* MyTorThread.swift in Sources */,
 				D08892B41DD582F9009DB0CD /* AppCoordinator.swift in Sources */,
 				D0F2D7D41BB5CC1B000E1D86 /* AppDelegate.swift in Sources */,
 				D0F2D7EC1BB5CD59000E1D86 /* CPASharedConstants.m in Sources */,
@@ -636,6 +628,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D095BFFC1BBD65300077E38B /* CPASharedConstants.m in Sources */,
+				A0621AFD2031CBE5009C34E8 /* MyTorThread.swift in Sources */,
 				D01A93781BC034D20047BB66 /* PacketTunnelProvider.swift in Sources */,
 				D09E38051E03D6E500088779 /* TunThread.swift in Sources */,
 				D0B28C531D53341B00EA635B /* FileManager.swift in Sources */,

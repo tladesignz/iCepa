@@ -10,33 +10,11 @@ import NetworkExtension
 
 class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
 
-    private static let ENABLE_LOGGING = false
+    private static let ENABLE_LOGGING = true
     private static var messageQueue: [String: Any] = ["log":[]]
 
-    private static let configuration: TorConfiguration = {
-        let appGroupDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CPAAppGroupIdentifier)!
-        let dataDirectory = appGroupDirectory.appendingPathComponent("Tor")
-        
-        // This is needed because tor loads its cache too aggressively for Jetsam
-        try? FileManager.default.removeItem(at: dataDirectory)
-        
-        do {
-            try FileManager.default.createDirectory(at: dataDirectory, withIntermediateDirectories: true, attributes: [FileAttributeKey(rawValue: FileAttributeKey.posixPermissions.rawValue): 0o700])
-        } catch let error as NSError {
-            log("Error: Cannot configure data directory: \(error.localizedDescription)")
-        }
-        
-        let configuration = TorConfiguration()
-        configuration.options = ["DNSPort": "12345", "AutomapHostsOnResolve": "1", "SocksPort": "9050", "AvoidDiskWrites": "1"]
-        configuration.cookieAuthentication = true
-        configuration.dataDirectory = dataDirectory
-        configuration.controlSocket = dataDirectory.appendingPathComponent("control_port")
-        configuration.arguments = ["--ignore-missing-torrc"]
-        return configuration
-    }()
-    
-    private static let torThread: TorThread = {
-        return TorThread(configuration: configuration)
+    private static let torThread: MyTorThread = {
+        return MyTorThread()
     }()
 
     private var timer: Timer?
@@ -46,7 +24,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
     }()
     
     private lazy var controller: TorController? = {
-        return TorController(socketURL: PacketTunnelProvider.configuration.controlSocket!)
+        return TorController(socketURL: MyTorThread.configuration.controlSocket!)
     }()
 
     override var protocolConfiguration: NETunnelProviderProtocol {
@@ -56,6 +34,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
     private var hostHandler: ((Data?) -> Void)?
 
     override func startTunnel(options: [String : NSObject]? = [:], completionHandler: @escaping (Error?) -> Void) {
+        print("startTunnel xxx")
+
         let ipv4Settings = NEIPv4Settings(addresses: ["192.168.20.2"], subnetMasks: ["255.255.255.0"])
         ipv4Settings.includedRoutes = [NEIPv4Route.default()]
 
@@ -71,8 +51,20 @@ class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
                 self.log("Error cannot set tunnel network settings: \(error.localizedDescription)")
                 return completionHandler(error)
             }
-            
-            PacketTunnelProvider.torThread.start()
+
+            var alreadyRunning = false
+
+            if var lock = MyTorThread.configuration.dataDirectory {
+                lock.appendPathComponent("lock")
+
+                alreadyRunning = FileManager.default.fileExists(atPath: lock.path)
+            }
+
+            self.log("TorThread is already running: \(alreadyRunning)")
+
+            if !alreadyRunning {
+                PacketTunnelProvider.torThread.start()
+            }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
                 do {
@@ -87,8 +79,20 @@ class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
                     //                                                      selector: #selector(self.sendMessages),
                     //                                                      userInfo: nil, repeats: true)
 
-                    try controller?.connect()
-                    let cookie = try Data(contentsOf: PacketTunnelProvider.configuration.dataDirectory!.appendingPathComponent("control_auth_cookie"), options: NSData.ReadingOptions(rawValue: 0))
+                    var success: Any?
+
+
+                    do {
+                        success = try controller?.connect()
+                    }
+                    catch let error as NSError {
+                        self.log("Error while controller.connect(): \(error)")
+                    }
+                    self.log("after controller.connect(), success = \(String(describing: success))")
+
+                    let cookie = try Data(contentsOf: MyTorThread.configuration.dataDirectory!.appendingPathComponent("control_auth_cookie"), options: NSData.ReadingOptions(rawValue: 0))
+
+                    self.log("Cookie: \(cookie)")
                     controller?.authenticate(with: cookie, completion: { (success, error) -> Void in
                         if let error = error {
                             self.log("Error: Cannot authenticate with Tor: \(error.localizedDescription)")
@@ -157,6 +161,8 @@ class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
         if ENABLE_LOGGING, var log = messageQueue["log"] as? [String] {
             log.append("\(self): \(message)")
             messageQueue["log"] = log
+
+            NSLog(message)
         }
     }
 }
