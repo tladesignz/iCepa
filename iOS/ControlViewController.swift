@@ -147,6 +147,12 @@ class ControlViewController: UIViewController {
         }
     }
 
+    func stopIfTorRunsInApp() {
+        if torThreadStyle?.selectedSegmentIndex == 1 {
+            session.stopVPNTunnel()
+        }
+    }
+
     @objc func statusDidChange(_ note: Notification?) {
         let labelText: String
         let buttonText: String

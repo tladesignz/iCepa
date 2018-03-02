@@ -72,6 +72,10 @@ class AppCoordinator {
 
         updateCurrentViewController()
     }
+
+    func applicationWillResignActive() {
+        controlViewController?.stopIfTorRunsInApp()
+    }
     
     @objc private func updateCurrentViewController() {
         NETunnelProviderManager.loadAllFromPreferences() { (managers, error) -> Void in

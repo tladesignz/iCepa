@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import NetworkExtension
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,5 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.coordinator = coordinator
         
         return true
+    }
+
+    func applicationWillResignActive(_ application: UIApplication) {
+        coordinator?.applicationWillResignActive()
     }
 }
