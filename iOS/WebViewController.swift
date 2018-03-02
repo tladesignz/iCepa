@@ -9,18 +9,28 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController, WKUIDelegate, UITextFieldDelegate, WKNavigationDelegate {
+class WebViewController: UIViewController, WKUIDelegate, UITextFieldDelegate, WKNavigationDelegate, UIWebViewDelegate {
 
     private static let url = "https://check.torproject.org"
 
-    var webView: WKWebView!
+    private static let useWKWebView = false
+
     var urlTF: UITextField!
 
     override func loadView() {
-        webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
-        view = webView
+        if WebViewController.useWKWebView {
+            let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+            webView.uiDelegate = self
+            webView.navigationDelegate = self
+
+            view = webView
+        }
+        else {
+            let webView = UIWebView(frame: .zero)
+            webView.delegate = self
+
+            view = webView
+        }
 
         urlTF = UITextField(frame: CGRect(x: 20, y: 100, width: 280, height: 31))
         urlTF.text = WebViewController.url
@@ -45,10 +55,15 @@ class WebViewController: UIViewController, WKUIDelegate, UITextFieldDelegate, WK
     }
 
     func load(_ string: String?) {
-        webView.isHidden = true
+        view.isHidden = true
 
         if let string = string, let url = URL(string: string) {
-            webView.load(URLRequest(url: url))
+            if let webView = view as? WKWebView {
+                webView.load(URLRequest(url: url))
+            }
+            else if let webView = view as? UIWebView {
+                webView.loadRequest(URLRequest(url: url))
+            }
         }
         else {
             alert("Invalid URL.")
@@ -85,6 +100,18 @@ class WebViewController: UIViewController, WKUIDelegate, UITextFieldDelegate, WK
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         alert(error.localizedDescription)
     }
+
+    // MARK: UIWebViewDelegate
+
+    public func webViewDidFinishLoad(_ webView: UIWebView) {
+        webView.isHidden = false
+    }
+
+    public func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        alert(error.localizedDescription)
+    }
+
+    // MARK: Private methods
 
     private func alert(_ message: String) {
         NSLog(message)
