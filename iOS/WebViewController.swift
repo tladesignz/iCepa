@@ -39,6 +39,7 @@ class WebViewController: UIViewController, WKUIDelegate, UITextFieldDelegate, WK
         urlTF.clearButtonMode = .whileEditing
         urlTF.autocapitalizationType = .none
         urlTF.returnKeyType = .go
+        urlTF.keyboardType = .URL
         urlTF.delegate = self
 
         navigationItem.setRightBarButton(
