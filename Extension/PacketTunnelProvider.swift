@@ -70,14 +70,14 @@ class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
                 do {
                     self.log("startTunnel, before connecting to Tor thread.")
 
-                    // Use this with a recent Tor.framework to tunnel logs from Tor to the app.
-                    //                    TORInstallTorLoggingCallback { (type: OSLogType, message: UnsafePointer<Int8>) in
-                    //                        PacketTunnelProvider.log(String.init(cString: message))
-                    //                    }
-                    //
-                    //                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self,
-                    //                                                      selector: #selector(self.sendMessages),
-                    //                                                      userInfo: nil, repeats: true)
+// Use this with a recent Tor.framework to tunnel logs from Tor to the app.
+//                    TORInstallTorLoggingCallback { (type: OSLogType, message: UnsafePointer<Int8>) in
+//                        PacketTunnelProvider.log(tag: "TOR", String(cString: message))
+//                    }
+//
+//                    self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self,
+//                                                      selector: #selector(self.sendMessages),
+//                                                      userInfo: nil, repeats: true)
 
                     var success: Any?
 
@@ -88,7 +88,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
                     catch let error as NSError {
                         self.log("Error while controller.connect(): \(error)")
                     }
-                    self.log("after controller.connect(), success = \(String(describing: success))")
+                    self.log("after controller.connect(), success = \(String(describing: success)) controller=\(String(describing: controller))")
 
                     let cookie = try Data(contentsOf: MyTorThread.configuration.dataDirectory!.appendingPathComponent("control_auth_cookie"), options: NSData.ReadingOptions(rawValue: 0))
 
@@ -151,15 +151,15 @@ class PacketTunnelProvider: NEPacketTunnelProvider, URLSessionDelegate {
         }
     }
 
-    private func log(_ message: String) {
-        PacketTunnelProvider.log(message)
+    private func log(tag: String? = nil, _ message: String) {
+        PacketTunnelProvider.log(tag: tag, message)
 
         sendMessages()
     }
 
-    private static func log(_ message: String) {
+    private static func log(tag: String? = nil, _ message: String) {
         if ENABLE_LOGGING, var log = messageQueue["log"] as? [String] {
-            log.append("\(self): \(message)")
+            log.append("\(tag ?? String(describing: self)): \(message)")
             messageQueue["log"] = log
 
             NSLog(message)

@@ -65,7 +65,7 @@ class FloatingButton: UIButton {
             let group = CAAnimationGroup()
             group.animations = animations
             group.duration = 0.1
-            group.fillMode = kCAFillModeForwards
+            group.fillMode = CAMediaTimingFillMode.forwards
             group.isRemovedOnCompletion = !isHighlighted
             
             layer.add(group, forKey: "FloatingButton_isHighlighted")

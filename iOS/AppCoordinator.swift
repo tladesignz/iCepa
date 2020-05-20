@@ -78,9 +78,9 @@ class AppCoordinator {
     }
     
     @objc private func updateCurrentViewController() {
-        NETunnelProviderManager.loadAllFromPreferences() { (managers, error) -> Void in
-            if let managers = managers, managers.count > 0 {
-                self.controlViewController = ControlViewController(manager: managers[0])
+        NETunnelProviderManager.loadAllFromPreferences() { managers, error in
+            if let manager = managers?.first {
+                self.controlViewController = ControlViewController(manager: manager)
                 self.currentViewController = self.controlViewController
             } else {
                 self.currentViewController = self.permissionViewController

@@ -104,7 +104,7 @@ class ControlViewController: UIViewController {
 
                     // Fake NE start
                     self.establishedLabel?.text = NSLocalizedString("Waiting for local Tor", comment: "")
-                    self.startStopButton?.setTitle(NSLocalizedString("Stop Tor", comment: ""), for: UIControlState())
+                    self.startStopButton?.setTitle(NSLocalizedString("Stop Tor", comment: ""), for: UIControl.State())
                 }
             }
 
@@ -185,7 +185,7 @@ class ControlViewController: UIViewController {
         }
 
         self.establishedLabel?.text = labelText
-        self.startStopButton?.setTitle(buttonText, for: UIControlState())
+        self.startStopButton?.setTitle(buttonText, for: UIControl.State())
 
     }
 

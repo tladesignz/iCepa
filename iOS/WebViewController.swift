@@ -13,7 +13,7 @@ class WebViewController: UIViewController, WKUIDelegate, UITextFieldDelegate, WK
 
     private static let url = "https://check.torproject.org"
 
-    private static let useWKWebView = false
+    private static let useWKWebView = true
 
     var urlTF: UITextField!
 
@@ -55,7 +55,7 @@ class WebViewController: UIViewController, WKUIDelegate, UITextFieldDelegate, WK
         load()
     }
 
-    func load(_ string: String?) {
+    func load(_ string: String? = WebViewController.url) {
         view.isHidden = true
 
         if let string = string, let url = URL(string: string) {
@@ -69,10 +69,6 @@ class WebViewController: UIViewController, WKUIDelegate, UITextFieldDelegate, WK
         else {
             alert("Invalid URL.")
         }
-    }
-
-    func load() {
-        load(WebViewController.url)
     }
 
     // MARK: UITextFieldDelegate

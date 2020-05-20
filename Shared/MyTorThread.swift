@@ -6,7 +6,7 @@
 //  Copyright © 2018 Conrad Kramer. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class MyTorThread: TorThread {
 

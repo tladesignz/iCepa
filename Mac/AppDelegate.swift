@@ -23,29 +23,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 NSLog("Error: Could not start manager: %@", error)
             }
             
-            let appGroupDirectory = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(CPAAppGroupIdentifier)!
-            let dataDirectory = appGroupDirectory.URLByAppendingPathComponent("Tor")
-            let controlSocket = dataDirectory.URLByAppendingPathComponent("control_port")
+            let appGroupDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: CPAAppGroupIdentifier)!
+            let dataDirectory = appGroupDirectory.appendingPathComponent("Tor")
+            let controlSocket = dataDirectory.appendingPathComponent("control_port")
+
             
-            let controller = TORController(socketURL: controlSocket)
-            controller.addObserverForCircuitEstablished({ (established) in
+            let controller = TorController(socketURL: controlSocket)
+            controller.addObserver(forCircuitEstablished: { (established) in
                 
             })
         }
-        
-        NETunnelProviderManager.loadOrCreateDefaultWithCompletionHandler { (manager, _) -> Void in
-            if let manager = manager {
-                if manager.enabled {
+
+        NETunnelProviderManager.loadAllFromPreferences { managers, error in
+            if let manager = managers?.first {
+                if manager.isEnabled {
                     start(manager)
                 } else {
-                    manager.enabled = true
-                    manager.saveToPreferencesWithCompletionHandler({ (error) in
+                    manager.isEnabled = true
+                    manager.saveToPreferences() { error in
                         if let error = error {
-                            NSLog("Error: Could not enable manager: %@", error)
+                            print("Error: Could not enable manager: \(error)")
                             return
                         }
                         start(manager)
-                    })
+                    }
                 }
             }
         }
